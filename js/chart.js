@@ -12,34 +12,34 @@ export class ChartVisualizer {
     }
 
     render(fileData, readingData, visibleChannels = null, showLabels = true) {
-        const colors = ['#db2777', '#0284c7', '#0d9488', '#ea580c', '#7c3aed', '#2563eb'];
+        const colors = ['#DB2777', '#2563EB', '#CA8A04', '#16A34A', '#7C3AED', '#DC2626'];
 
         const option = {
             title: {
                 text: `Wave Visualization — ${fileData.filename}`,
                 left: 'left',
                 textStyle: {
-                    color: '#0f172a',
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: 15,
-                    fontWeight: 700
+                    color: '#831843',
+                    fontFamily: 'Crimson Pro, serif',
+                    fontSize: 16,
+                    fontWeight: 600
                 }
             },
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {
                     type: 'cross',
-                    label: { backgroundColor: '#db2777' }
+                    label: { backgroundColor: '#DB2777' }
                 },
                 backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                borderColor: '#e2e8f0',
+                borderColor: 'rgba(219, 39, 119, 0.15)',
                 borderWidth: 1,
-                textStyle: { color: '#0f172a' }
+                textStyle: { color: '#831843' }
             },
             legend: {
                 bottom: 5,
                 type: 'scroll',
-                textStyle: { fontFamily: 'Inter, sans-serif', color: '#475569' }
+                textStyle: { fontFamily: 'Atkinson Hyperlegible, sans-serif', color: '#9D174D' }
             },
             grid: {
                 top: 60,
@@ -62,25 +62,25 @@ export class ChartVisualizer {
                     type: 'slider', start: 0, end: 100,
                     borderColor: 'transparent',
                     selectedDataBackground: {
-                        lineStyle: { color: '#db2777' },
-                        areaStyle: { color: 'rgba(219, 39, 119, 0.1)' }
+                        lineStyle: { color: '#DB2777' },
+                        areaStyle: { color: 'rgba(219, 39, 119, 0.12)' }
                     }
                 }
             ],
             xAxis: {
                 type: 'category',
                 name: 'Index',
-                nameTextStyle: { color: '#64748b' },
-                axisLine: { lineStyle: { color: '#cbd5e1' } },
-                axisLabel: { color: '#64748b' }
+                nameTextStyle: { color: '#9D174D' },
+                axisLine: { lineStyle: { color: 'rgba(219, 39, 119, 0.15)' } },
+                axisLabel: { color: '#9D174D' }
             },
             yAxis: {
                 type: 'value',
                 name: 'mm',
-                nameTextStyle: { color: '#64748b' },
-                axisLine: { lineStyle: { color: '#cbd5e1' } },
-                splitLine: { lineStyle: { color: '#f1f5f9' } },
-                axisLabel: { color: '#64748b' }
+                nameTextStyle: { color: '#9D174D' },
+                axisLine: { lineStyle: { color: 'rgba(219, 39, 119, 0.15)' } },
+                splitLine: { lineStyle: { color: 'rgba(219, 39, 119, 0.06)' } },
+                axisLabel: { color: '#9D174D' }
             },
             series: []
         };
@@ -111,12 +111,12 @@ export class ChartVisualizer {
                         });
                     }
                 };
-                addMark(reading.peak1, 'P1');
-                addMark(reading.valley1, 'V1');
-                addMark(reading.peak2, 'P2');
-                addMark(reading.valley2, 'V2');
-                addMark(reading.peak3, 'P3');
-                addMark(reading.valley3, 'V3');
+                addMark(reading.peak1, `${seriesName} P1`);
+                addMark(reading.valley1, `${seriesName} V1`);
+                addMark(reading.peak2, `${seriesName} P2`);
+                addMark(reading.valley2, `${seriesName} V2`);
+                addMark(reading.peak3, `${seriesName} P3`);
+                addMark(reading.valley3, `${seriesName} V3`);
             }
 
             option.series.push({
@@ -132,7 +132,11 @@ export class ChartVisualizer {
                         color: '#fff',
                         fontWeight: 'bold',
                         fontSize: 10,
-                        formatter: (params) => `${params.name}\n${parseFloat(params.value).toFixed(2)}`
+                        fontFamily: 'Atkinson Hyperlegible, sans-serif',
+                        formatter: (params) => {
+                            const idx = params.data.coord ? params.data.coord[0] : '';
+                            return `${params.name} @${idx}\n${parseFloat(params.value).toFixed(2)}`;
+                        }
                     }
                 }
             });

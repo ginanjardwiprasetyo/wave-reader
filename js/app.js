@@ -73,14 +73,14 @@ class App {
         // ── Table Filter ──
         btnShowActiveOnly.addEventListener('click', () => {
             this.showAllFiles = false;
-            btnShowActiveOnly.className = "px-4 py-1.5 rounded-lg font-semibold transition-all duration-200 text-xs bg-pink-500 text-white cursor-pointer shadow-sm";
-            btnShowAll.className = "px-4 py-1.5 rounded-lg font-medium transition-all duration-200 text-xs text-slate-600 hover:text-slate-900 cursor-pointer";
+            btnShowActiveOnly.className = "px-4 py-1.5 rounded-lg font-semibold transition-all duration-200 text-xs pink-btn shadow-sm";
+            btnShowAll.className = "px-4 py-1.5 rounded-lg font-medium transition-all duration-200 text-xs text-pink-600 hover:text-pink-800 cursor-pointer";
             this.tableRenderer.render(this.allFilesData, this.activeFileIndex, this.showAllFiles);
         });
         btnShowAll.addEventListener('click', () => {
             this.showAllFiles = true;
-            btnShowAll.className = "px-4 py-1.5 rounded-lg font-semibold transition-all duration-200 text-xs bg-pink-500 text-white cursor-pointer shadow-sm";
-            btnShowActiveOnly.className = "px-4 py-1.5 rounded-lg font-medium transition-all duration-200 text-xs text-slate-600 hover:text-slate-900 cursor-pointer";
+            btnShowAll.className = "px-4 py-1.5 rounded-lg font-semibold transition-all duration-200 text-xs pink-btn shadow-sm";
+            btnShowActiveOnly.className = "px-4 py-1.5 rounded-lg font-medium transition-all duration-200 text-xs text-pink-600 hover:text-pink-800 cursor-pointer";
             this.tableRenderer.render(this.allFilesData, this.activeFileIndex, this.showAllFiles);
         });
 
@@ -89,8 +89,8 @@ class App {
             this.showLabels = !this.showLabels;
             btnToggleLabels.textContent = this.showLabels ? 'ON' : 'OFF';
             btnToggleLabels.className = this.showLabels
-                ? 'px-4 py-1.5 rounded-xl text-xs font-semibold bg-pink-500 hover:bg-pink-600 text-white cursor-pointer transition-all shadow-sm'
-                : 'px-4 py-1.5 rounded-xl text-xs font-semibold bg-slate-200 hover:bg-slate-300 text-slate-600 cursor-pointer transition-all shadow-sm';
+                ? 'px-4 py-1.5 rounded-xl text-xs font-semibold pink-btn shadow-sm'
+                : 'px-4 py-1.5 rounded-xl text-xs font-semibold bg-pink-100 hover:bg-pink-200 text-pink-500 cursor-pointer transition-all shadow-sm';
             this.refreshChart();
         });
     }
@@ -130,7 +130,7 @@ class App {
         this.allFilesData.forEach((fileObj, idx) => {
             const isActive = idx === this.activeFileIndex;
             const item = document.createElement('div');
-            item.className = `flex items-center space-x-3 px-3.5 py-2.5 rounded-xl cursor-pointer transition-all duration-150 ${isActive ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-md' : 'text-slate-700 hover:bg-pink-50'}`;
+            item.className = `flex items-center space-x-3 px-3.5 py-2.5 rounded-xl cursor-pointer transition-all duration-150 ${isActive ? 'bg-gradient-to-r from-pink-600 to-pink-700 text-white shadow-md' : 'text-pink-700 hover:bg-pink-50'}`;
             item.innerHTML = `
                 <svg class="w-4 h-4 flex-shrink-0 ${isActive ? 'text-white' : 'text-pink-400'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
@@ -155,10 +155,10 @@ class App {
 
         const toast = document.createElement('div');
         toast.id = 'duplicateToast';
-        toast.className = 'fixed top-20 left-1/2 -translate-x-1/2 z-[60] flex items-center space-x-3 bg-amber-50 border border-amber-200 text-amber-800 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 opacity-0 -translate-y-4';
+        toast.className = 'fixed top-20 left-1/2 -translate-x-1/2 z-[60] flex items-center space-x-3 bg-pink-50 border border-pink-200 text-pink-800 px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 opacity-0 -translate-y-4';
         toast.innerHTML = `
-            <div class="bg-amber-100 p-2 rounded-full flex-shrink-0">
-                <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-pink-100 p-2 rounded-full flex-shrink-0">
+                <svg class="w-5 h-5 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
                 </svg>
             </div>
@@ -166,7 +166,7 @@ class App {
                 <p class="font-bold text-sm">Duplicate File Detected</p>
                 <p class="text-xs mt-0.5"><strong>"${filename}"</strong> has already been uploaded. Skipping.</p>
             </div>
-            <button class="ml-2 text-amber-500 hover:text-amber-700 p-1 rounded-lg hover:bg-amber-100 transition-colors" onclick="this.parentElement.remove()">
+            <button class="ml-2 text-pink-500 hover:text-pink-700 p-1 rounded-lg hover:bg-pink-100 transition-colors" onclick="this.parentElement.remove()">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>`;
         document.body.appendChild(toast);
@@ -243,12 +243,12 @@ class App {
     renderChannelFilters(headers) {
         const container = document.getElementById('channelFilterContainer');
         container.innerHTML = '';
-        const colors = ['#db2777', '#0284c7', '#0d9488', '#ea580c', '#7c3aed', '#2563eb'];
+        const colors = ['#DB2777', '#2563EB', '#CA8A04', '#16A34A', '#7C3AED', '#DC2626'];
 
         // "All" button
         const allBtn = document.createElement('button');
         const allActive = this.visibleChannels === null;
-        allBtn.className = `px-3 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-all duration-200 border ${allActive ? 'bg-slate-800 text-white border-slate-800 shadow-sm' : 'bg-white/70 text-slate-600 border-slate-200 hover:bg-slate-50'}`;
+        allBtn.className = `px-3 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-all duration-200 border ${allActive ? 'bg-pink-700 text-white border-pink-700 shadow-sm' : 'bg-white/70 text-pink-600 border-pink-200/50 hover:bg-pink-50'}`;
         allBtn.textContent = 'All';
         allBtn.addEventListener('click', () => {
             this.visibleChannels = null;

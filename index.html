@@ -9,121 +9,118 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
     <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600;700;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="shortcut icon" href="favicon.svg">
 </head>
 <body class="antialiased min-h-screen">
-    
+
     <!-- Floating Smoothing Control -->
-    <div class="fixed bottom-6 right-6 z-50 glass-card rounded-full px-5 py-3 shadow-2xl flex items-center space-x-3 transition-transform hover:scale-105 border border-white/50">
-        <div class="text-pink-600 bg-pink-100 p-2 rounded-full" title="Smoothing Window Filter">
+    <div class="fixed bottom-6 right-6 z-50 glass-card rounded-full px-5 py-3 shadow-2xl flex items-center space-x-3 transition-all duration-300 hover:shadow-[0_8px_32px_-6px_rgba(219,39,119,0.2)] border border-pink-200/40">
+        <div class="text-pink-600 bg-pink-100/80 p-2 rounded-full">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h4l3-8 4 16 3-8h4"></path>
             </svg>
         </div>
         <input type="range" id="windowSizeInput" min="1" max="15" step="2" value="5" class="accent-pink-500 w-24">
-        <span id="windowSizeValue" class="text-sm font-bold text-slate-700 w-4 text-right">5</span>
+        <span id="windowSizeValue" class="text-sm font-bold text-pink-700 w-4 text-right">5</span>
     </div>
 
-    <!-- Header with Beautiful Wave Logo -->
-    <header class="bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-200/60 sticky top-0 z-40">
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md border-b border-pink-200/30 sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <div class="p-2 bg-gradient-to-tr from-pink-500 to-rose-400 rounded-xl shadow-md text-white flex items-center justify-center">
+                <div class="p-2 bg-gradient-to-br from-pink-500 to-pink-700 rounded-xl shadow-md text-white flex items-center justify-center">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 12c3-4 3.5-6 6-6s4 12 7 12 4.5-2 5-6"></path>
                     </svg>
                 </div>
-                <h1 class="text-2xl font-extrabold tracking-tight text-slate-800 flex items-center gap-1.5">
-                    <span class="gradient-text">WTM903</span> 
-                    <span class="text-slate-800 font-bold text-xl">Wave Reader</span>
+                <h1 class="text-2xl font-bold tracking-tight flex items-center gap-1.5" style="font-family: 'Crimson Pro', serif;">
+                    <span class="gradient-text">WTM903</span>
+                    <span class="text-pink-800 font-semibold text-xl">Wave Reader</span>
                 </h1>
             </div>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-32">
-        
+
         <!-- Upload Section -->
-        <section class="glass-card rounded-3xl p-10 text-center drop-zone shadow-lg" id="dropZone">
+        <section class="glass-card rounded-2xl p-10 text-center drop-zone shadow-lg" id="dropZone">
             <div class="space-y-5">
-                <div class="mx-auto w-20 h-20 bg-pink-50 rounded-full flex items-center justify-center text-pink-500 shadow-inner">
+                <div class="academic-ornament justify-center">
+                    <span class="text-pink-500/60 text-2xl font-serif" style="font-family: 'Crimson Pro', serif;">&#10087;</span>
+                </div>
+                <div class="mx-auto w-20 h-20 bg-gradient-to-br from-pink-100 to-pink-50 rounded-full flex items-center justify-center text-pink-500 shadow-inner border border-pink-200/50">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold text-slate-800">Drag and drop wave data files here</h3>
-                <p class="text-slate-500 text-sm max-w-md mx-auto">Supports .csv, .xls, and .xlsx exports from WTM903 Wave Probe Software. You can upload multiple files at once.</p>
+                <h3 class="text-xl font-bold text-pink-800">Upload Wave Data</h3>
+                <p class="text-pink-600/70 text-sm max-w-md mx-auto">Supports .csv, .xls, and .xlsx exports from WTM903 Wave Probe Software. Multiple files accepted.</p>
                 <div class="relative pt-4">
                     <input type="file" id="fileInput" multiple class="hidden" accept=".csv,.xls,.xlsx">
-                    <button onclick="document.getElementById('fileInput').click()" class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-semibold py-3 px-8 rounded-xl shadow-md transition-all hover:shadow-xl hover:-translate-y-0.5">
+                    <button onclick="document.getElementById('fileInput').click()" class="pink-btn py-3 px-8 rounded-xl shadow-md">
                         Browse Files
                     </button>
                 </div>
             </div>
-            
+
             <div id="progressContainer" class="hidden mt-8 w-full max-w-md mx-auto">
                 <div class="flex justify-between text-xs mb-2">
-                    <span id="progressText" class="text-slate-600 font-semibold tracking-wide">Processing Data...</span>
+                    <span id="progressText" class="text-pink-700 font-semibold tracking-wide">Processing Data...</span>
                 </div>
-                <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden shadow-inner">
-                    <div id="progressBar" class="bg-gradient-to-r from-pink-500 to-rose-500 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                <div class="w-full bg-pink-100/50 rounded-full h-2.5 overflow-hidden shadow-inner">
+                    <div id="progressBar" class="bg-gradient-to-r from-pink-500 to-pink-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
                 </div>
             </div>
         </section>
 
         <!-- Results Section -->
         <section id="resultsSection" class="hidden space-y-8 animate-fade-in">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/40 p-4 rounded-2xl border border-white/50 shadow-sm">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 glass-card rounded-2xl p-5 border border-pink-200/30 shadow-lg">
                 <div>
-                    <h2 class="text-2xl font-bold text-slate-800">Reading Results</h2>
-                    <p class="text-sm text-slate-500 mt-1">Review visualized cycles and extracted peak/valley data.</p>
+                    <h2 class="text-2xl font-bold text-pink-800">Reading Results</h2>
+                    <p class="text-sm text-pink-600/60 mt-1">Review visualized cycles and extracted peak and valley data.</p>
                 </div>
                 <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
-                    <button onclick="document.getElementById('fileInput').click()" class="flex-1 md:flex-none bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold py-2.5 px-4 rounded-xl shadow-sm transition-all duration-200 text-sm cursor-pointer flex items-center justify-center space-x-2 border border-indigo-200">
+                    <button onclick="document.getElementById('fileInput').click()" class="flex-1 md:flex-none outline-btn py-2.5 px-4 rounded-xl shadow-sm text-sm flex items-center justify-center space-x-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
                         <span>Upload More</span>
                     </button>
-                    <button id="btnExportCsv" class="flex-1 md:flex-none bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 font-semibold py-2.5 px-4 rounded-xl shadow-sm transition-all duration-200 text-sm cursor-pointer flex items-center justify-center space-x-2">
+                    <button id="btnExportCsv" class="flex-1 md:flex-none outline-btn py-2.5 px-4 rounded-xl shadow-sm text-sm flex items-center justify-center space-x-2">
                         <span>CSV</span>
                     </button>
-                    <button id="btnExportXlsx" class="flex-1 md:flex-none bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 px-4 rounded-xl shadow-sm transition-all duration-200 text-sm cursor-pointer flex items-center justify-center space-x-2">
+                    <button id="btnExportXlsx" class="flex-1 md:flex-none gold-btn py-2.5 px-4 rounded-xl shadow-sm text-sm flex items-center justify-center space-x-2">
                         <span>XLSX</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Scalable Premium Custom File Select Dropdown -->
+            <!-- File Select Dropdown -->
             <div class="space-y-2">
-                <label class="text-xs font-bold uppercase tracking-wider text-slate-400 ml-1">Select File to View:</label>
+                <label class="text-xs font-bold uppercase tracking-widest text-pink-400/80 ml-1" style="font-family: 'Atkinson Hyperlegible', sans-serif;">Select File to View</label>
                 <div class="relative w-full max-w-md" id="customFileDropdown">
-                    <button type="button" id="dropdownBtn" class="w-full flex justify-between items-center bg-white/70 backdrop-blur-md border border-white/60 text-slate-800 font-semibold py-3.5 px-4 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all cursor-pointer">
+                    <button type="button" id="dropdownBtn" class="w-full flex justify-between items-center glass-card py-3.5 px-4 rounded-xl text-pink-800 font-semibold focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all cursor-pointer">
                         <span id="dropdownSelectedValue" class="truncate">No files selected</span>
-                        <svg class="h-5 w-5 text-slate-500 transition-transform duration-200" id="dropdownArrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <svg class="h-5 w-5 text-pink-400 transition-transform duration-200" id="dropdownArrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                         </svg>
                     </button>
-                    <div id="dropdownList" class="hidden absolute left-0 right-0 mt-2 z-30 max-h-60 overflow-y-auto bg-white/95 backdrop-blur-lg border border-slate-200/50 rounded-2xl shadow-2xl p-1.5 space-y-0.5 transition-all duration-200 origin-top transform scale-95 opacity-0">
-                        <!-- Custom options generated dynamically -->
-                    </div>
+                    <div id="dropdownList" class="hidden absolute left-0 right-0 mt-2 z-30 max-h-60 overflow-y-auto bg-white/95 backdrop-blur-lg border border-pink-200/30 rounded-2xl shadow-2xl p-1.5 space-y-0.5 transition-all duration-200 origin-top transform scale-95 opacity-0"></div>
                 </div>
             </div>
 
-            <!-- Chart Card with Channel Select and Label Show/Hide features -->
-            <div class="glass-card rounded-2xl p-6 border border-white/40 shadow-xl transition-all duration-300 space-y-5">
-                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 pb-3 border-b border-slate-100/50">
+            <!-- Chart Card -->
+            <div class="glass-card rounded-2xl p-6 border border-pink-200/30 shadow-lg transition-all duration-300 space-y-5">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 pb-3 border-b border-pink-200/20">
                     <div class="flex flex-col sm:flex-row sm:items-center gap-3 w-full lg:w-auto">
-                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">View Channel:</span>
-                        <div class="flex flex-wrap gap-1.5" id="channelFilterContainer">
-                            <!-- Injected dynamically based on loaded file headers -->
-                        </div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-pink-400/80">View Channel</span>
+                        <div class="flex flex-wrap gap-1.5" id="channelFilterContainer"></div>
                     </div>
                     <div class="flex items-center space-x-3 self-end lg:self-auto">
-                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Cycle Labels (P1, V1...):</span>
-                        <button id="btnToggleLabels" class="px-4 py-1.5 rounded-xl text-xs font-semibold bg-pink-500 hover:bg-pink-600 text-white cursor-pointer transition-all shadow-sm">
-                            ON
-                        </button>
+                        <span class="text-xs font-bold uppercase tracking-widest text-pink-400/80">Cycle Labels</span>
+                        <button id="btnToggleLabels" class="px-4 py-1.5 rounded-xl text-xs font-semibold pink-btn shadow-sm">ON</button>
                     </div>
                 </div>
                 <div id="chartContainer" class="chart-container"></div>
@@ -133,24 +130,18 @@
             <div class="space-y-4">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                     <div>
-                        <h3 class="text-lg font-bold text-slate-800" id="tableTitle">Wave Cycles Summary</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Showing absolute peak and valley values per cycle.</p>
+                        <h3 class="text-lg font-bold text-pink-800">Wave Cycles Summary</h3>
+                        <p class="text-xs text-pink-600/50 mt-0.5">Absolute peak and valley values per cycle.</p>
                     </div>
-                    <div class="inline-flex rounded-xl border border-pink-100/55 bg-pink-50/20 p-1 text-sm shadow-sm" id="tableFilterToggle">
-                        <button id="btnShowActiveOnly" class="px-4 py-1.5 rounded-lg font-semibold transition-all duration-200 text-xs bg-pink-500 text-white cursor-pointer shadow-sm">
-                            Current File Only
-                        </button>
-                        <button id="btnShowAll" class="px-4 py-1.5 rounded-lg font-medium transition-all duration-200 text-xs text-slate-600 hover:text-slate-900 cursor-pointer">
-                            All Files Recap
-                        </button>
+                    <div class="inline-flex rounded-xl border border-pink-200/30 bg-pink-50/30 p-1 text-sm shadow-sm" id="tableFilterToggle">
+                        <button id="btnShowActiveOnly" class="px-4 py-1.5 rounded-lg font-semibold transition-all duration-200 text-xs pink-btn shadow-sm">Current File Only</button>
+                        <button id="btnShowAll" class="px-4 py-1.5 rounded-lg font-medium transition-all duration-200 text-xs text-pink-600 hover:text-pink-800 cursor-pointer">All Files Recap</button>
                     </div>
                 </div>
-                <div class="glass-card rounded-2xl overflow-hidden border border-white/40 shadow-xl" id="tableContainer">
-                    <!-- Table injected here -->
-                </div>
+                <div class="glass-card rounded-2xl overflow-hidden border border-pink-200/30 shadow-lg" id="tableContainer"></div>
             </div>
         </section>
-        
+
     </main>
 
     <script type="module" src="js/app.js"></script>
