@@ -466,6 +466,20 @@ header .rounded-xl {
   border: 1px solid rgba(37,99,235,0.2);
 }
 
+/* ─── Re-upload Spinning Icon ──────────────────── */
+@keyframes reupload-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+#btnReUpload:hover .reupload-icon {
+  animation: reupload-spin 0.6s ease-in-out;
+}
+
+#btnReUpload:active .reupload-icon {
+  animation: reupload-spin 0.4s ease-in-out;
+}
+
 /* ─── Empty State ─────────────────────────────── */
 .empty-state svg {
   opacity: 0.6;

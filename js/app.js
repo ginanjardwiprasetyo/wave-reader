@@ -115,6 +115,9 @@ class App {
                 : 'px-4 py-1.5 rounded-xl text-xs font-semibold bg-pink-100 hover:bg-pink-200 text-pink-500 cursor-pointer transition-all shadow-sm';
             this.refreshChart();
         });
+
+        // ── Re-Upload ──
+        document.getElementById('btnReUpload').addEventListener('click', () => this.resetToUpload());
     }
 
     // ─── Custom Dropdown ────────────────────────────────────────
@@ -306,6 +309,29 @@ class App {
         document.getElementById('chartSkeleton').classList.add('hidden');
         document.getElementById('chartCard').classList.remove('hidden');
         document.getElementById('tableSkeleton').classList.add('hidden');
+        this.chartVisualizer.chart.resize();
+    }
+
+    // ─── Re-Upload ──────────────────────────────────────────────
+    resetToUpload() {
+        this.allFilesData = [];
+        this.activeFileIndex = 0;
+        this.showAllFiles = false;
+        this.showLabels = false;
+        this.visibleChannels = null;
+        this.dropdownOpen = false;
+
+        document.getElementById('chartSkeleton').classList.add('hidden');
+        document.getElementById('chartCard').classList.add('hidden');
+        document.getElementById('resultsSection').classList.add('hidden');
+        document.getElementById('tableSkeleton').classList.add('hidden');
+        document.getElementById('dropZone').classList.remove('hidden');
+        document.getElementById('heroWave').classList.remove('hidden');
+        document.getElementById('waveBanner').classList.add('hidden');
+        document.getElementById('dropdownList').innerHTML = '';
+        document.getElementById('dropdownSelectedValue').textContent = 'No files selected';
+
+        this.chartVisualizer.chart.clear();
     }
 
     // ─── Channel Filter Buttons ─────────────────────────────────
