@@ -284,6 +284,10 @@ class App {
 
         progressText.textContent = `Done — ${addedCount} file(s) loaded.`;
         setTimeout(() => {
+            const heroWave = document.getElementById('heroWave');
+            if (heroWave) heroWave.classList.add('hidden');
+            const waveBanner = document.getElementById('waveBanner');
+            if (waveBanner) waveBanner.classList.remove('hidden');
             progressContainer.classList.add('hidden');
             dropZone.classList.add('hidden');
             resultsSection.classList.remove('hidden');

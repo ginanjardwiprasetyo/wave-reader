@@ -1,7 +1,7 @@
 :root {
   --color-bg-start: #FDF2F8;
   --color-bg-end: #FFF5F5;
-  --color-surface: rgba(255, 255, 255, 0.72);
+  --color-surface: rgba(255, 255, 255, 0.55);
   --color-primary: #DB2777;
   --color-primary-light: #FCE7F3;
   --color-primary-dark: #BE185D;
@@ -251,6 +251,54 @@ code, pre, .mono {
 
 header .rounded-xl {
   animation: icon-pulse 2.5s ease-in-out infinite;
+}
+
+/* ─── Hero Wave Background ────────────────────── */
+.wave-hero-track {
+  will-change: transform;
+  backface-visibility: hidden;
+  animation: wave-hero-scroll 18s linear infinite;
+}
+
+@keyframes wave-hero-scroll {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); }
+}
+
+.wave-hero-fill-1 {
+  animation: wave-hero-swell-1 5s ease-in-out infinite alternate;
+}
+
+.wave-hero-fill-2 {
+  animation: wave-hero-swell-2 6s ease-in-out infinite alternate;
+}
+
+.wave-hero-line {
+  animation: wave-hero-swell-1 5s ease-in-out infinite alternate;
+}
+
+.wave-hero-spray {
+  animation: wave-hero-spray-drift 3s ease-in-out infinite alternate;
+}
+
+@keyframes wave-hero-spray-drift {
+  0% { transform: translate3d(0, 0, 0); opacity: 0.3; }
+  100% { transform: translate3d(40px, -10px, 0); opacity: 0.8; }
+}
+
+@keyframes wave-hero-swell-1 {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(0, -20px, 0); }
+}
+
+@keyframes wave-hero-swell-2 {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(0, 15px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave-hero-track { animation: none; }
+  .wave-hero-fill-1, .wave-hero-fill-2, .wave-hero-line, .wave-hero-spray { animation: none; }
 }
 
 /* ─── Wave Animation ──────────────────────────── */
