@@ -1,10 +1,10 @@
 export class DataExporter {
-    static generateExportData(allFilesData) {
+    static generateExportData(filesData) {
         const rows = [];
         
         rows.push(['File Name', 'Timestamp', 'Channel', 'Peak 1', 'Valley 1', 'Peak 2', 'Valley 2', 'Peak 3', 'Valley 3']);
         
-        allFilesData.forEach(fileObj => {
+        filesData.forEach(fileObj => {
             fileObj.reading.forEach((chReading, chIdx) => {
                 const chName = fileObj.fileData.headers[chIdx] || `Ch${chIdx+1}`;
                 const formatVal = (pt) => pt ? pt.value : '';
@@ -15,10 +15,10 @@ export class DataExporter {
                     chName,
                     formatVal(chReading.peak1),
                     formatVal(chReading.valley1),
-                    formatVal(chReading.peak2),
                     formatVal(chReading.valley2),
-                    formatVal(chReading.peak3),
-                    formatVal(chReading.valley3)
+                    formatVal(chReading.peak2),
+                    formatVal(chReading.valley3),
+                    formatVal(chReading.peak3)
                 ]);
             });
         });
@@ -26,8 +26,8 @@ export class DataExporter {
         return rows;
     }
 
-    static exportCSV(allFilesData) {
-        const data = this.generateExportData(allFilesData);
+    static exportCSV(filesData) {
+        const data = this.generateExportData(filesData);
         const csv = Papa.unparse(data);
         
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -42,8 +42,8 @@ export class DataExporter {
         document.body.removeChild(link);
     }
 
-    static exportXLSX(allFilesData) {
-        const data = this.generateExportData(allFilesData);
+    static exportXLSX(filesData) {
+        const data = this.generateExportData(filesData);
         
         const ws = XLSX.utils.aoa_to_sheet(data);
         const wb = XLSX.utils.book_new();

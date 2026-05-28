@@ -1,6 +1,7 @@
 export class ChartVisualizer {
     constructor(containerId) {
         const container = document.getElementById(containerId);
+        this.container = container;
         this.chart = echarts.init(container);
 
         window.addEventListener('resize', () => this.chart.resize());
@@ -11,17 +12,34 @@ export class ChartVisualizer {
         }
     }
 
+    getThemeColors() {
+        return {
+            text: '#831843',
+            textMuted: '#9D174D',
+            axisLine: 'rgba(219,39,119,0.15)',
+            splitLine: 'rgba(219,39,119,0.06)',
+            tooltipBg: 'rgba(255,255,255,0.96)',
+            tooltipBorder: 'rgba(219,39,119,0.15)',
+            tooltipText: '#831843',
+            legendText: '#9D174D',
+            gridBg: 'transparent'
+        };
+    }
+
     render(fileData, readingData, visibleChannels = null, showLabels = true) {
-        const colors = ['#DB2777', '#2563EB', '#CA8A04', '#16A34A', '#7C3AED', '#DC2626'];
+        const colors = ['#DB2777', '#2563EB', '#E8772E', '#0D9488', '#7C3AED', '#DC2626'];
+        const theme = this.getThemeColors();
+
+        const dataLen = fileData.channels[0] ? fileData.channels[0].length : 0;
 
         const option = {
             title: {
                 text: `Wave Visualization — ${fileData.filename}`,
-                left: 'left',
+                left: 'center',
                 textStyle: {
-                    color: '#831843',
-                    fontFamily: 'Crimson Pro, serif',
-                    fontSize: 16,
+                    color: theme.text,
+                    fontFamily: 'Fira Sans, sans-serif',
+                    fontSize: 14,
                     fontWeight: 600
                 }
             },
@@ -31,21 +49,22 @@ export class ChartVisualizer {
                     type: 'cross',
                     label: { backgroundColor: '#DB2777' }
                 },
-                backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                borderColor: 'rgba(219, 39, 119, 0.15)',
+                backgroundColor: theme.tooltipBg,
+                borderColor: theme.tooltipBorder,
                 borderWidth: 1,
-                textStyle: { color: '#831843' }
+                textStyle: { color: theme.tooltipText, fontFamily: 'Fira Sans, sans-serif' }
             },
             legend: {
                 bottom: 5,
                 type: 'scroll',
-                textStyle: { fontFamily: 'Atkinson Hyperlegible, sans-serif', color: '#9D174D' }
+                textStyle: { fontFamily: 'Fira Sans, sans-serif', color: theme.legendText },
+                emphasis: { selector: false }
             },
             grid: {
-                top: 60,
+                top: 50,
                 bottom: 60,
-                left: 50,
-                right: 30,
+                left: 55,
+                right: 40,
                 containLabel: true
             },
             toolbox: {
@@ -61,39 +80,45 @@ export class ChartVisualizer {
                 {
                     type: 'slider', start: 0, end: 100,
                     borderColor: 'transparent',
+                    height: 22,
+                    bottom: 8,
                     selectedDataBackground: {
                         lineStyle: { color: '#DB2777' },
-                        areaStyle: { color: 'rgba(219, 39, 119, 0.12)' }
+                        areaStyle: { color: 'rgba(219,39,119,0.12)' }
                     }
                 }
             ],
             xAxis: {
                 type: 'category',
                 name: 'Index',
-                nameTextStyle: { color: '#9D174D' },
-                axisLine: { lineStyle: { color: 'rgba(219, 39, 119, 0.15)' } },
-                axisLabel: { color: '#9D174D' }
+                nameLocation: 'center',
+                nameGap: 35,
+                nameTextStyle: { color: theme.textMuted },
+                axisLine: { lineStyle: { color: theme.axisLine } },
+                axisLabel: {
+                    color: theme.text,
+                    interval: Math.max(0, Math.floor(dataLen / 30)),
+                    rotate: dataLen > 200 ? 30 : 0
+                }
             },
             yAxis: {
                 type: 'value',
                 name: 'mm',
-                nameTextStyle: { color: '#9D174D' },
-                axisLine: { lineStyle: { color: 'rgba(219, 39, 119, 0.15)' } },
-                splitLine: { lineStyle: { color: 'rgba(219, 39, 119, 0.06)' } },
-                axisLabel: { color: '#9D174D' }
+                nameTextStyle: { color: theme.textMuted },
+                axisLine: { lineStyle: { color: theme.axisLine } },
+                splitLine: { lineStyle: { color: theme.splitLine } },
+                axisLabel: { color: theme.textMuted }
             },
             series: []
         };
 
         fileData.channels.forEach((chData, idx) => {
-            // Skip channels not in the visible filter
             if (visibleChannels !== null && !visibleChannels.includes(idx)) return;
 
             const seriesName = fileData.headers[idx] || `Ch${idx + 1}`;
             const channelColor = colors[idx % colors.length];
             const reading = readingData[idx];
 
-            // Build markPoints if labels are enabled
             const markPoints = [];
             if (showLabels && reading) {
                 const addMark = (pt, name) => {
@@ -126,18 +151,25 @@ export class ChartVisualizer {
                 sampling: 'lttb',
                 itemStyle: { color: channelColor },
                 lineStyle: { width: 2 },
+                emphasis: { lineStyle: { width: 3 } },
+                blur: { lineStyle: { opacity: 0.15 } },
                 markPoint: {
-                    data: markPoints,
-                    label: {
-                        color: '#fff',
-                        fontWeight: 'bold',
-                        fontSize: 10,
-                        fontFamily: 'Atkinson Hyperlegible, sans-serif',
-                        formatter: (params) => {
-                            const idx = params.data.coord ? params.data.coord[0] : '';
-                            return `${params.name} @${idx}\n${parseFloat(params.value).toFixed(2)}`;
+                    data: markPoints.map(mp => ({
+                        ...mp,
+                        symbolSize: 28,
+                        label: {
+                            show: true,
+                            color: '#fff',
+                            fontWeight: 'bold',
+                            fontSize: 9,
+                            fontFamily: 'Fira Sans, sans-serif',
+                            backgroundColor: channelColor,
+                            padding: [2, 6],
+                            borderRadius: 4,
+                            position: 'top',
+                            formatter: () => `${parseFloat(mp.value).toFixed(2)}`
                         }
-                    }
+                    }))
                 }
             });
         });
@@ -150,5 +182,21 @@ export class ChartVisualizer {
         this.chart.setOption(option, true);
 
         setTimeout(() => this.chart.resize(), 80);
+    }
+
+    downloadPng() {
+        const url = this.chart.getDataURL({
+            type: 'png',
+            pixelRatio: 2,
+            backgroundColor: '#fff'
+        });
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'waveform.png';
+        link.click();
+    }
+
+    resetZoom() {
+        this.chart.dispatchAction({ type: 'restore' });
     }
 }

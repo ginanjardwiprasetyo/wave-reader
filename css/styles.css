@@ -11,30 +11,41 @@
   --color-text-main: #831843;
   --color-text-body: #4A1942;
   --color-text-muted: #9D174D;
+  --color-border: rgba(219, 39, 119, 0.12);
+  --color-border-strong: rgba(219, 39, 119, 0.3);
+  --color-table-bg: rgba(255,255,255,0.5);
+  --color-table-hover: rgba(219,39,119,0.04);
+  --color-table-header-bg: rgba(253,242,248,0.5);
+  --dropdown-bg: rgba(255,255,255,0.95);
+  --card-shadow: 0 8px 32px -8px rgba(219, 39, 119, 0.08), 0 1px 1px 0 rgba(255, 255, 255, 0.9) inset;
+  --wave-gradient: linear-gradient(180deg, rgba(253,242,248,0) 0%, rgba(253,242,248,0.6) 100%);
 }
 
 body {
-  background: linear-gradient(160deg, var(--color-bg-start) 0%, var(--color-bg-end) 50%, #FFF1F2 100%);
+  background: linear-gradient(160deg, var(--color-bg-start) 0%, var(--color-bg-end) 50%, var(--color-bg-start) 100%);
   background-attachment: fixed;
   color: var(--color-text-body);
-  font-family: 'Atkinson Hyperlegible', system-ui, -apple-system, sans-serif;
+  font-family: 'Fira Sans', system-ui, -apple-system, sans-serif;
+  transition: background 0.4s ease, color 0.4s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Crimson Pro', Georgia, serif;
+  font-family: 'Fira Sans', Georgia, serif;
   color: var(--color-text-main);
   font-weight: 600;
+}
+
+code, pre, .mono {
+  font-family: 'Fira Code', monospace;
 }
 
 .glass-card {
   background: var(--color-surface);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(219, 39, 119, 0.12);
-  box-shadow:
-    0 8px 32px -8px rgba(219, 39, 119, 0.08),
-    0 1px 1px 0 rgba(255, 255, 255, 0.9) inset;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--card-shadow);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease, border-color 0.4s ease;
 }
 
 .glass-card:hover {
@@ -67,31 +78,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .table-row-hover:hover {
-  background-color: rgba(219, 39, 119, 0.04) !important;
+  background-color: var(--color-table-hover) !important;
   cursor: pointer;
 }
 
 .table-row-active {
   background: linear-gradient(90deg, rgba(219, 39, 119, 0.08) 0%, rgba(219, 39, 119, 0.02) 100%) !important;
-  border-left: 3px solid var(--color-accent);
+  border-left: 3px solid var(--color-accent) !important;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+/* Hide scrollbars everywhere */
+*::-webkit-scrollbar {
+  display: none;
 }
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(219, 39, 119, 0.15);
-  border-radius: 99px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(219, 39, 119, 0.3);
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .gradient-text {
@@ -125,6 +127,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #dropdownList {
+  background: var(--dropdown-bg) !important;
+  border-color: var(--color-border) !important;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
 }
 
@@ -150,7 +154,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .academic-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(219, 39, 119, 0.2), rgba(202, 138, 4, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, var(--color-primary), var(--color-accent), transparent);
+  opacity: 0.3;
 }
 
 .academic-ornament {
@@ -169,10 +174,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .pink-btn {
   background: linear-gradient(135deg, #DB2777 0%, #E11D48 100%);
-  color: white;
-  font-weight: 600;
+  color: white !important;
+  font-weight: 700;
   border: none;
   cursor: pointer;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.15);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -199,7 +205,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .outline-btn {
   background: transparent;
-  border: 1.5px solid rgba(219, 39, 119, 0.3);
+  border: 1.5px solid var(--color-border-strong);
   color: var(--color-primary);
   font-weight: 600;
   cursor: pointer;
@@ -226,4 +232,242 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
+}
+
+/* ─── Copyright Fade In ───────────────────────── */
+@keyframes copyright-fade {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.copyright-footer {
+  animation: copyright-fade 0.8s ease-out forwards;
+}
+
+/* ─── Header Icon Pulse ───────────────────────── */
+@keyframes icon-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(219,39,119,0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(219,39,119,0); }
+}
+
+header .rounded-xl {
+  animation: icon-pulse 2.5s ease-in-out infinite;
+}
+
+/* ─── Wave Animation ──────────────────────────── */
+.wave-container {
+  width: 100%;
+  height: 80px;
+  overflow: hidden;
+  position: relative;
+  background: var(--wave-gradient);
+  transition: background 0.4s ease;
+}
+
+.wave-track {
+  width: 200%;
+  height: 100%;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.wave-track-1 {
+  animation: wave-scroll-1 18s linear infinite;
+}
+
+@keyframes wave-scroll-1 {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave-track-1 { animation: none; }
+}
+
+.wave-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.wave-fill-1 {
+  fill: rgba(219, 39, 119, 0.06);
+}
+
+.wave-fill-2 {
+  fill: rgba(202, 138, 4, 0.04);
+}
+
+.wave-line-1 {
+  fill: none;
+  stroke: rgba(219, 39, 119, 0.2);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.wave-line-2 {
+  fill: none;
+  stroke: rgba(202, 138, 4, 0.15);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+
+.wave-line-3 {
+  fill: none;
+  stroke: rgba(219, 39, 119, 0.1);
+  stroke-width: 0.8;
+  stroke-linecap: round;
+}
+
+/* ─── Skeleton Loading ────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(219,39,119,0.04) 0%,
+    rgba(219,39,119,0.1) 50%,
+    rgba(219,39,119,0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+.skeleton-chart {
+  height: 400px;
+  width: 100%;
+}
+
+.skeleton-text {
+  height: 14px;
+  width: 60%;
+  margin-bottom: 8px;
+}
+
+.skeleton-text-sm {
+  height: 10px;
+  width: 40%;
+  margin-bottom: 6px;
+}
+
+.skeleton-card {
+  height: 90px;
+  width: 100%;
+  border-radius: 12px;
+}
+
+/* ─── Table Sorting ───────────────────────────── */
+.sort-header {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+  position: relative;
+  white-space: nowrap;
+}
+
+.sort-header:hover {
+  color: var(--color-primary) !important;
+}
+
+.sort-header .sort-indicator {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 10px;
+  opacity: 0.4;
+  transition: opacity 0.2s ease;
+  font-family: 'Fira Code', monospace;
+}
+
+.sort-header:hover .sort-indicator {
+  opacity: 0.8;
+}
+
+.sort-header .sort-indicator.active {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+/* ─── File Badge ──────────────────────────────── */
+.file-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: 'Fira Code', monospace;
+}
+
+.file-badge.csv {
+  background: rgba(22,163,74,0.1);
+  color: #16A34A;
+  border: 1px solid rgba(22,163,74,0.2);
+}
+
+.file-badge.xlsx {
+  background: rgba(37,99,235,0.1);
+  color: #2563EB;
+  border: 1px solid rgba(37,99,235,0.2);
+}
+
+.file-badge.xls {
+  background: rgba(37,99,235,0.1);
+  color: #2563EB;
+  border: 1px solid rgba(37,99,235,0.2);
+}
+
+/* ─── Empty State ─────────────────────────────── */
+.empty-state svg {
+  opacity: 0.6;
+}
+
+/* ─── Chart Toolbar Buttons ───────────────────── */
+.chart-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-family: 'Fira Sans', sans-serif;
+}
+
+.chart-toolbar-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.chart-toolbar-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ─── Zebra Striping ──────────────────────────── */
+.table-row-even {
+  background: transparent;
+}
+
+.table-row-odd {
+  background: rgba(219,39,119,0.02);
+}
+
+.table-row-odd.table-row-active,
+.table-row-even.table-row-active {
+  background: linear-gradient(90deg, rgba(219,39,119,0.08) 0%, rgba(219,39,119,0.02) 100%) !important;
+}
+
+/* ─── Responsive Tweaks ───────────────────────── */
+@media (max-width: 640px) {
+  .wave-container {
+    height: 50px;
+  }
 }
